@@ -9,22 +9,23 @@ import (
 
 func main() {
 	for {
-		inputReader := bufio.NewReader(os.Stdin)
-		fmt.Println("Add a new note ? (y/n) : ")
+		fmt.Println("\n--- NOTE DASHBOARD ---")
+		fmt.Println("1. Add a New Note")
+		fmt.Println("2. View All Notes") // chore for later!
+		fmt.Println("3. Delete Notes File")
+		fmt.Println("4. Exit")
+		fmt.Print("Choose an option: ")
 
-		userInput, _ := inputReader.ReadString('\n')
+		choiceReader := bufio.NewReader(os.Stdin)
+		choice, _ := choiceReader.ReadString('\n')
+		choice = strings.TrimSpace(choice)
 
-		userInput = strings.TrimSpace(userInput)
-
-		if userInput == "n" {
-			fmt.Println("Ok GoodBye!")
-			break
-		} else {
-			reader := bufio.NewReader(os.Stdin)
-
+		switch choice {
+		case "1":
 			fmt.Println("Enter Your note : ")
+			inputReader := bufio.NewReader(os.Stdin)
 
-			noteContent, err := reader.ReadString('\n')
+			noteContent, err := inputReader.ReadString('\n')
 
 			noteContent = strings.TrimSpace(noteContent)
 
@@ -38,17 +39,41 @@ func main() {
 				fmt.Println("Error occured while opening file")
 			}
 
-			defer file.Close()
-
 			// actually write to file now
 			if _, err := file.WriteString(noteContent + "\n"); err != nil {
 				fmt.Println("Error occured while writing to file")
 			} else {
 				fmt.Println("Note content written to file")
 			}
+			file.Close()
+
+		case "2":
+			fmt.Println("Viewing all Notes...") // TODO: Left to do
+
+		case "3":
+			fmt.Println("Are you sure you want to delete the notes files ? (y/n) :")
+			deleteReader := bufio.NewReader(os.Stdin)
+			deleteChoice, _ := deleteReader.ReadString('\n')
+
+			deleteChoice = strings.TrimSpace(deleteChoice)
+
+			if deleteChoice == "y" {
+				err := os.Remove("notes.txt")
+				if err != nil {
+					fmt.Println("Error while deleting file, and the error is : ", err)
+				} else {
+					fmt.Println("Notes file delted successfully")
+				}
+			} else {
+				fmt.Println("Delete cancelled")
+			}
+		case "4":
+			fmt.Println("Exiting Program")
+			return
+		default:
+			fmt.Println("Invalid choice, please pick 1-4.")
 		}
 
 	}
 	// this is the main closing braces
 }
-
