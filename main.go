@@ -9,9 +9,10 @@ import (
 
 func main() {
 	for {
+		// TODO: Add a Global IO Reader
 		fmt.Println("\n--- NOTE DASHBOARD ---")
 		fmt.Println("1. Add a New Note")
-		fmt.Println("2. View All Notes") // chore for later!
+		fmt.Println("2. View All Notes")
 		fmt.Println("3. Delete Notes File")
 		fmt.Println("4. Exit")
 		fmt.Print("Choose an option: ")
@@ -48,7 +49,17 @@ func main() {
 			file.Close()
 
 		case "2":
-			fmt.Println("Viewing all Notes...") // TODO: Left to do
+			fmt.Println("----- Your Notes ------") // TODO: Left to do
+			data, err := os.ReadFile("notes.txt")
+			if err != nil {
+				if os.IsNotExist(err) {
+					fmt.Println("No notes file found !, First add some notes")
+				} else {
+					fmt.Println("Error reading notes...")
+				}
+			} else {
+				fmt.Println(string(data))
+			}
 
 		case "3":
 			fmt.Println("Are you sure you want to delete the notes files ? (y/n) :")
