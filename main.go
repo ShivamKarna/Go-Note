@@ -9,7 +9,6 @@ import (
 
 func main() {
 	for {
-		// TODO: Add a Global IO Reader
 		fmt.Println("\n--- NOTE DASHBOARD ---")
 		fmt.Println("1. Add a New Note")
 		fmt.Println("2. View All Notes")
@@ -49,7 +48,7 @@ func main() {
 			file.Close()
 
 		case "2":
-			fmt.Println("----- Your Notes ------") // TODO: Left to do
+			fmt.Println("----- Your Notes ------")
 			data, err := os.ReadFile("notes.txt")
 			if err != nil {
 				if os.IsNotExist(err) {
